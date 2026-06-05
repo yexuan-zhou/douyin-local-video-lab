@@ -1,0 +1,25 @@
+{
+  "name": "douyin-local-video-lab",
+  "version": "0.1.0",
+  "description": "Download public short-video links for personal archiving, then analyze local videos with frame sampling and an Edge helper extension.",
+  "main": "scripts/douyin-download.js",
+  "type": "commonjs",
+  "scripts": {
+    "download": "node scripts/douyin-download.js",
+    "frames": "node scripts/extract-frames.js",
+    "sheet": "node scripts/make-contact-sheet.js",
+    "github:upload": "node scripts/github-upload.js",
+    "check": "node --check scripts/douyin-download.js && node --check scripts/extract-frames.js && node --check scripts/make-contact-sheet.js && node --check scripts/github-upload.js && node --check extension/edge-video-downloader/background.js"
+  },
+  "keywords": [
+    "douyin",
+    "video",
+    "local-analysis",
+    "edge-extension",
+    "frame-sampling"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}

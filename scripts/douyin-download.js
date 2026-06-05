@@ -21,7 +21,7 @@ Options:
 
 Examples:
   npm run download -- "https://v.douyin.com/xxxxxxx/"
-  npm run download -- 7640727223443410230 --out-dir downloads
+  npm run download -- 1234567890123456789 --out-dir downloads
 `);
 }
 

@@ -27,19 +27,19 @@ async function downloadFromTab(tab) {
     const candidate = pickBestCandidate(result?.candidates || []);
 
     if (!candidate) {
-      await showToast(tab.id, "没有找到可直接下载的视频。请先播放视频几秒后再试。");
+      await showToast(tab.id, "没有找到可保存的授权直链视频。请先播放视频几秒后再试。");
       await setBadge(tab.id, "无");
       return;
     }
 
     if (candidate.url.startsWith("blob:")) {
-      await showToast(tab.id, "当前视频是 blob/受保护流，扩展不能直接下载。");
+      await showToast(tab.id, "当前视频是 blob/受保护流，扩展不能保存。");
       await setBadge(tab.id, "BLOB");
       return;
     }
 
     if (STREAM_RE.test(candidate.url) || candidate.type === "stream") {
-      await showToast(tab.id, "当前视频是分段流，扩展不合并分段视频。");
+      await showToast(tab.id, "当前视频是分段流，扩展不合并或规避受保护媒体。");
       await setBadge(tab.id, "流");
       return;
     }
@@ -53,11 +53,11 @@ async function downloadFromTab(tab) {
       saveAs: false,
     });
 
-    await showToast(tab.id, `已开始下载：${filename.split("/").pop()}`);
+    await showToast(tab.id, `已开始保存授权视频：${filename.split("/").pop()}`);
     await setBadge(tab.id, "↓");
     setTimeout(() => setBadge(tab.id, ""), 3500);
   } catch (error) {
-    await showToast(tab.id, `下载失败：${error?.message || "未知错误"}`);
+    await showToast(tab.id, `保存失败：${error?.message || "未知错误"}`);
     await setBadge(tab.id, "!");
   }
 }
@@ -104,8 +104,6 @@ function looksLikeDownloadableVideo(url) {
   return lower.includes("mime_type=video_mp4")
     || lower.includes("video_mp4")
     || lower.includes("/video/tos/")
-    || lower.includes("douyinvod.com")
-    || lower.includes("bytevodd.com")
     || lower.includes("video_id=");
 }
 
@@ -177,7 +175,6 @@ function collectVideoCandidates() {
     const lower = url.toLowerCase();
     const isDirect = directVideoRe.test(url)
       || lower.includes("mime_type=video_mp4")
-      || lower.includes("douyinvod.com")
       || lower.includes("/video/tos/");
     const isStream = streamRe.test(url);
     const isVideoInitiator = entry.initiatorType === "video";

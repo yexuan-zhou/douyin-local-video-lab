@@ -1,107 +1,90 @@
-# 工作流：链接下载视频 -> 本地理解总结
+# Workflow: Authorized Local Video Review
 
-这份流程来自一次完整实践：从抖音分享短链下载公开 MP4，然后不再访问线上页面，只对本地视频抽帧、读字幕、总结内容。
+This workflow turns creator-owned or authorized short-video material into a local archive, key-frame contact sheet, and review report.
 
-## 1. 输入链接
+## 1. Prepare Authorized Material
 
-用户提供短链，例如：
+Use one of these source types:
+
+- A video created by you or your team
+- A client-provided video with explicit permission
+- A licensed or publicly reusable sample
+- A local export from your editing timeline
+
+Place the MP4 in an ignored local folder:
 
 ```text
-https://v.douyin.com/xxxxxxx/
+downloads/sample-video.mp4
 ```
 
-脚本做的事：
+## 2. Extract Key Frames
 
-- 跟随短链跳转，拿到公开视频 ID。
-- 请求公开分享页，提取标题、描述、作者信息和 `play_addr.uri`。
-- 拼出公开视频播放地址。
+The frame extractor reads a local MP4 only. It starts a temporary local HTTP server so Edge/Chromium can seek through the file, then captures frames from the `<video>` element.
 
-命令：
+Evenly sampled frames:
 
 ```bash
-npm run download -- "https://v.douyin.com/xxxxxxx/"
+npm run frames -- "downloads/sample-video.mp4" --duration 120 --count 24
 ```
 
-## 2. 下载到本地
-
-下载器默认保存到 `downloads/`，并用页面标题生成文件名。
+Specific timestamps:
 
 ```bash
-npm run download -- "https://v.douyin.com/xxxxxxx/" --out-dir downloads
+npm run frames -- "downloads/sample-video.mp4" --times 3,12,24,36,60,90
 ```
 
-注意：公开视频平台结构会变化，所以下载脚本需要把“解析失败”和“下载结果不像 MP4”作为正常可诊断状态处理。
+Use `--duration` when the browser cannot reliably read the MP4 duration.
 
-## 3. 本地抽帧
-
-下载完成后，分析阶段不再搜索线上内容，只读取本地 MP4。
-
-抽帧器的核心做法：
-
-- 启动一个本机临时 HTTP server。
-- 用 Range 请求把本地 MP4 喂给 Edge/Chromium。
-- 用 Playwright 控制视频跳到多个时间点。
-- 对 `<video>` 元素截图，生成关键帧。
-
-均匀抽帧：
+## 3. Generate A Contact Sheet
 
 ```bash
-npm run frames -- "downloads/video.mp4" --duration 3460 --count 36
+npm run sheet -- "artifacts/frames/sample-video" --title "Sample Video Review"
 ```
 
-指定时间点抽帧：
+The generated `contact-sheet.html` shows:
 
-```bash
-npm run frames -- "downloads/video.mp4" --times 60,180,600,1200,2400,3300
-```
+- Full-frame thumbnails
+- Subtitle-focused crops
+- Timestamp labels
 
-为什么需要 `--duration`：有些平台 MP4 的元数据会让浏览器返回 `Infinity` 或读不到时长，此时手动提供秒数即可。
+This does not replace human review. It provides visual evidence for summary writing and AI-assisted analysis.
 
-## 4. 生成字幕总览
+## 4. Write The Review
 
-```bash
-npm run sheet -- "artifacts/frames/video"
-```
-
-生成的 `contact-sheet.html` 每张卡片包含：
-
-- 完整画面
-- 底部字幕聚焦裁切
-- 时间点标签
-
-这一步的目的不是自动替代理解，而是快速看到开头、转折、结尾的字幕和画面证据。
-
-## 5. 本地分析总结
-
-推荐输出格式：
+Recommended output format:
 
 ```markdown
-| 视频 | 讲了什么 | 输出观点 |
+| Video | What It Covers | Review Point |
 |---|---|---|
-| 标题 | 一句话概括内容主线 | 一句话概括价值判断 |
+| Title | One-sentence content summary | One-sentence evaluation or insight |
 ```
 
-判断顺序：
+Review order:
 
-1. 先看开头提出的问题。
-2. 再看中段人物关系或论证转折。
-3. 最后看结尾收束观点。
-4. 只写能从本地视频画面/字幕支撑的结论。
+1. Identify the opening hook or question.
+2. Track the main turn, proof, or story beat.
+3. Check the ending and call to action.
+4. Only write conclusions supported by local frames, subtitles, or the source file.
 
-## 6. Edge 插件辅助
+## 5. Open The Static Demo
 
-插件用于当前网页里已经暴露直链的视频：
+```bash
+npm run demo
+```
 
-1. 打开视频网页。
-2. 播放几秒。
-3. 点击扩展图标。
-4. 浏览器下载到 `Video Downloads/`。
+This opens a static product page and a fictional sample review report:
 
-它是下载器的补充，不是万能抓流工具。
+- `web-demo/index.html`
+- `web-demo/demo-report.html`
 
-## 边界
+## Optional Authorized Source Resolver
 
-- 不绕过 DRM、登录权限、付费墙。
-- 不合并 `m3u8`/`mpd` 分段流。
-- 不提交下载的视频和抽帧图片到仓库。
-- 只处理自己有权保存和分析的内容。
+The historical resolver script is kept for authorized source links and IDs. It should only be used when the user has the right to access and save the material. It must not be extended into a crawler, login simulator, cookie collector, or platform restriction bypass tool.
+
+## Boundaries
+
+- Do not process unauthorized videos.
+- Do not bypass DRM, login permissions, paywalls, or access controls.
+- Do not collect or store account passwords, cookies, or private tokens.
+- Do not commit local videos, frames, browser profiles, or generated artifacts.
+- Keep all demos fictional and all user material local unless the user explicitly configures a third-party AI service.

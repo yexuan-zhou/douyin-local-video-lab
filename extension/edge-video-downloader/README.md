@@ -1,23 +1,28 @@
-# 当前视频一键下载 Edge 扩展
+# Authorized Direct Video Helper Extension
 
-用途：点击 Edge 工具栏里的扩展图标，下载当前页面中可直接访问的 HTML5 视频。
+This optional Edge extension helps save direct HTML5 video resources from the current tab when the user owns the material or has permission to process it.
 
-## 安装
+它只适用于用户本人拥有权利或已获授权的视频素材，不用于绕过平台限制、登录权限、付费墙、DRM 或分段流保护。
 
-1. 打开 Edge，进入 `edge://extensions/`。
-2. 打开“开发人员模式”。
-3. 点击“加载解压缩的扩展”。
-4. 选择本仓库里的 `extension/edge-video-downloader`。
-5. 安装后把“当前视频一键下载”固定到工具栏。
+## Install
 
-## 使用
+1. Open Edge and go to `edge://extensions/`.
+2. Enable Developer mode.
+3. Click "Load unpacked".
+4. Select `extension/edge-video-downloader`.
+5. Pin "授权视频保存助手" to the toolbar if needed.
 
-1. 打开有视频的网页。
-2. 先让视频播放几秒。
-3. 点击工具栏里的“当前视频一键下载”图标，或按 `Alt+Shift+D`。
+## Use
 
-下载文件会进入浏览器默认下载目录下的 `Video Downloads` 文件夹。
+1. Open a page containing an authorized direct HTML5 video.
+2. Play the video briefly so the browser exposes the direct media URL.
+3. Click the extension icon, or press `Alt+Shift+D`.
 
-## 限制
+Saved files go to the browser's default download directory under `Video Downloads`.
 
-这个扩展只下载页面已经暴露出来的直链视频。它不会绕过 DRM、登录权限、付费墙，也不会合并 `m3u8`/`mpd` 分段流或 `blob:` 媒体流。
+## Limits
+
+- It only handles direct video URLs already available to the page.
+- It does not bypass DRM, login permission, paywalls, or access controls.
+- It does not merge `m3u8` / `mpd` segmented streams or `blob:` media.
+- It must not be used for unauthorized copying, redistribution, or commercial use.

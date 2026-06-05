@@ -1,49 +1,142 @@
-# Douyin Local Video Lab
+# Short Video Local Archive & AI Review Tool
 
-一个把“短链接下载视频 -> 本地抽帧 -> 读字幕/画面总结”的工作流整理成可复用工具的小项目。
+Repository name: `douyin-local-video-lab`
 
-## 能做什么
+A local-first tool for creators and content teams to archive authorized short videos, extract key frames, generate summaries, and produce review reports.
 
-- 从公开视频分享链接解析视频信息，并下载为本地 MP4。
-- 用本地 Edge/Chromium 播放本地 MP4，按时间点抽关键帧。
-- 生成关键帧总览 HTML，方便人工或 AI 看字幕、梳理观点。
-- 提供一个 Edge 扩展：对网页里已经暴露的直链 HTML5 视频做一键下载。
+一个本地优先的短视频素材归档与内容复盘工具，用于整理用户本人拥有权利或已获授权的视频素材，自动生成关键帧、摘要和复盘报告。
 
-## 快速开始
+## Who It Is For
+
+- Short-video creators
+- Editors and post-production freelancers
+- MCN and content teams
+- Operations and content review staff
+- Student portfolio or graduation-project media organization
+
+## Core Features
+
+- Local video import for creator-owned or authorized material
+- Authorized video material archive workflow
+- Automatic key-frame extraction from local MP4 files
+- Video summary and content review report workflow
+- CSV / Markdown / HTML report export foundations
+- Local-first execution, with no default cloud upload
+- Future Docker private deployment and desktop app support
+
+## Compliance Notice
+
+This project is intended only for creator-owned or authorized video materials. Do not use it to bypass platform restrictions, scrape content, download unauthorized videos, or infringe copyright.
+
+本项目仅用于处理用户本人拥有版权或已获授权的视频素材。请勿用于绕过平台限制、抓取内容、保存未经授权的视频，或侵犯版权、肖像权、隐私权和平台规则。
+
+## Quick Start
+
+### 1. Install
 
 ```bash
 npm install
-npm run download -- "https://v.douyin.com/xxxxxxx/"
-npm run frames -- "downloads/video.mp4" --duration 3460
-npm run sheet -- "artifacts/frames/video"
 ```
 
-输出默认进入：
+For CI or environments where browser downloads are not needed:
 
-- `downloads/`：下载的视频
-- `artifacts/frames/`：抽出的关键帧
-- `contact-sheet.html`：关键帧总览页
+```bash
+npm install --ignore-scripts
+```
 
-## Edge 扩展
+### 2. Prepare A Sample Video
 
-1. 打开 Edge：`edge://extensions/`
-2. 打开“开发人员模式”
-3. 选择“加载解压缩的扩展”
-4. 选择 `extension/edge-video-downloader`
-5. 打开视频网页，先播放几秒，再点工具栏扩展图标
+Place a creator-owned or authorized MP4 file in a local ignored folder:
 
-限制：扩展只处理页面已经暴露出来的直链视频，不绕过 DRM、登录权限、付费墙，也不合并 `m3u8`/`mpd` 分段流。
+```text
+downloads/sample-video.mp4
+```
 
-## 标准工作流
+`downloads/` and generated artifacts are ignored by Git.
 
-1. 输入分享链接，解析公开页面里的视频 ID、标题和播放资源。
-2. 下载 MP4 到本地，不把视频提交到 Git。
-3. 对本地 MP4 抽 30 到 60 张关键帧。
-4. 生成总览页，按开头、转折、结尾读字幕和画面。
-5. 输出“讲了什么”和“观点是什么”的短总结。
+### 3. Extract Key Frames
 
-更完整说明见 [docs/workflow.md](docs/workflow.md)、[docs/architecture.md](docs/architecture.md)、[docs/tools.md](docs/tools.md) 和 [docs/github-upload.md](docs/github-upload.md)。
+```bash
+npm run frames -- "downloads/sample-video.mp4" --duration 120 --count 24
+```
 
-## 合规边界
+Output:
 
-本项目用于个人资料归档、学习笔记和本地内容理解。请只处理你有权访问和保存的公开视频内容，并遵守平台条款、版权规则和当地法律。
+```text
+artifacts/frames/sample-video/
+```
+
+### 4. Generate A Contact Sheet
+
+```bash
+npm run sheet -- "artifacts/frames/sample-video" --title "Sample Video Review"
+```
+
+Output:
+
+```text
+artifacts/frames/sample-video/contact-sheet.html
+```
+
+### 5. Open The Web Demo
+
+```bash
+npm run demo
+```
+
+This opens:
+
+- `web-demo/index.html`
+- `web-demo/demo-report.html`
+
+### 6. Optional Authorized Source Resolver
+
+The legacy resolver remains available for links or video IDs you are legally allowed to access and save. It is not a crawler, does not log in, does not read cookies, and does not bypass protected streams.
+
+```bash
+npm run download -- "https://example.com/authorized-short-video-link"
+```
+
+If a platform blocks access, requires login, uses DRM, or prohibits saving, do not attempt to bypass it.
+
+## Scripts
+
+| Command | Status | Purpose |
+|---|---|---|
+| `npm run demo` | Real | Opens the static product demo and sample report. |
+| `npm run web-demo` | Real | Alias for `npm run demo`. |
+| `npm run frames` | Real | Extracts key frames from a local authorized MP4. |
+| `npm run sheet` | Real | Builds a local HTML contact sheet from extracted frames. |
+| `npm run report` | Demo | Opens the sample report page. |
+| `npm run download` | Legacy / optional | Resolves an authorized source link or video ID when lawful. |
+| `npm run check` | Real | Syntax-checks Node.js scripts and validates demo files. |
+
+## Web Demo
+
+- [Product page](web-demo/index.html)
+- [Sample report](web-demo/demo-report.html)
+- [Sample report data](examples/sample-report-data.json)
+
+The demo is static and uses fictional data only.
+
+## Documentation
+
+- [Compliance and Acceptable Use Policy](docs/compliance.md)
+- [Monetization Plan](docs/monetization.md)
+- [Product Roadmap](docs/roadmap.md)
+- [Workflow](docs/workflow.md)
+- [Architecture](docs/architecture.md)
+- [Tools](docs/tools.md)
+- [GitHub Upload Notes](docs/github-upload.md)
+
+## Commercial Direction
+
+- Local CLI version
+- Desktop version
+- Web demo
+- Docker private deployment
+- Team customization service
+
+## Current Boundary
+
+This is a showcase MVP and local workflow foundation, not a full SaaS product. It does not include user accounts, payment, cloud storage, or a production backend.

@@ -10,7 +10,7 @@ const USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) Apple
 
 function usage() {
   console.log(`Usage:
-  node scripts/douyin-download.js <douyin-share-url|aweme-id|video-uri> [options]
+  node scripts/douyin-download.js <authorized-source-url|aweme-id|video-uri> [options]
 
 Options:
   --out-dir <dir>     Output directory. Default: downloads
@@ -20,8 +20,13 @@ Options:
   --help              Show this help
 
 Examples:
-  npm run download -- "https://v.douyin.com/xxxxxxx/"
+  npm run download -- "https://example.com/authorized-short-video-link"
   npm run download -- 1234567890123456789 --out-dir downloads
+
+Compliance:
+  Only use this legacy resolver for creator-owned or authorized material.
+  Do not use it to bypass platform restrictions, protected streams, login
+  requirements, paywalls, or copyright rules.
 `);
 }
 
@@ -161,7 +166,7 @@ async function resolveInput(input) {
   }
 
   if (!awemeId) {
-    throw new Error("Could not resolve a Douyin aweme/video id from the input.");
+    throw new Error("Could not resolve an authorized source video id from the input.");
   }
 
   const shareUrls = [
@@ -187,7 +192,7 @@ async function resolveInput(input) {
 
   const playUri = extractPlayUri(html);
   if (!playUri) {
-    throw new Error("Could not find a public playable video uri in the page HTML.");
+    throw new Error("Could not find a playable video uri in the authorized source page HTML.");
   }
 
   return {

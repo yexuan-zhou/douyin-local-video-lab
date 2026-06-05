@@ -1,0 +1,47 @@
+{
+  "projectName": "Campus Cafe Review Kit",
+  "videoTitle": "Campus Cafe Launch Reel",
+  "duration": "00:42",
+  "sourceType": "creator-owned sample",
+  "summary": "A fictional launch reel introduces a campus cafe with a quick hook, warm product shots, three feature highlights, and a clear launch-week call to action.",
+  "keyMoments": [
+    {
+      "time": "00:03",
+      "label": "Opening hook",
+      "note": "The video immediately introduces the cafe and launch context."
+    },
+    {
+      "time": "00:12",
+      "label": "Product reveal",
+      "note": "Close-up shots make the featured drinks easy to recognize."
+    },
+    {
+      "time": "00:24",
+      "label": "Social proof",
+      "note": "A group table shot implies a comfortable student gathering space."
+    },
+    {
+      "time": "00:38",
+      "label": "Call to action",
+      "note": "The launch-week invite is clear but could stay on screen longer."
+    }
+  ],
+  "tags": [
+    "creator-owned",
+    "launch",
+    "food",
+    "campus",
+    "short-video-review"
+  ],
+  "strengths": [
+    "Clear opening question and visual subject.",
+    "Warm color palette supports the cafe mood.",
+    "Readable launch-week call to action."
+  ],
+  "improvements": [
+    "Add one close-up reaction shot before the final offer.",
+    "Keep the final location text on screen for at least 2.5 seconds.",
+    "Export a square thumbnail with the product and store name visible."
+  ],
+  "exportedAt": "2026-06-05T09:00:00+08:00"
+}

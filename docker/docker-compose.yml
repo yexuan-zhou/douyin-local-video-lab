@@ -1,0 +1,8 @@
+services:
+  short-video-review-tool:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    command: npm run check

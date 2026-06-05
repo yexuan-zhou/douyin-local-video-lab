@@ -73,7 +73,7 @@ async function github(token, method, endpoint, body) {
       "accept": "application/vnd.github+json",
       "content-type": "application/json",
       "x-github-api-version": "2022-11-28",
-      "user-agent": "douyin-local-video-lab-uploader",
+      "user-agent": "short-video-review-tool-uploader",
     },
     body: body ? JSON.stringify(body) : undefined,
   });

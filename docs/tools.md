@@ -1,39 +1,41 @@
-# 工具清单
+# Tools
 
-## 运行环境
+## Runtime
 
-| 工具 | 用途 |
+| Tool | Purpose |
 |---|---|
-| Node.js 20+ | CLI 脚本、下载、文件流处理、本地 HTTP server |
-| Playwright | 控制 Edge/Chromium 播放本地 MP4、seek、截图 |
-| Microsoft Edge / Chromium | 解码视频并提供 `<video>` 截图能力 |
-| Edge Extensions API | 当前网页视频候选发现、一键下载 |
+| Node.js 20+ | CLI scripts, local file processing, local HTTP server |
+| Playwright | Controls Edge/Chromium for local MP4 frame capture |
+| Microsoft Edge / Chromium | Decodes local video and provides frame screenshots |
+| Chrome Extensions API | Optional authorized direct-video helper |
 
-## 浏览器扩展 API
+## Browser Extension APIs
 
-| API | 用途 |
+| API | Purpose |
 |---|---|
-| `chrome.action` | 工具栏按钮和 badge 反馈 |
-| `chrome.scripting` | 注入候选视频采集函数和 toast |
-| `chrome.downloads` | 调起浏览器下载 |
-| `chrome.commands` | 支持快捷键触发 |
+| `chrome.action` | Toolbar button and badge feedback |
+| `chrome.scripting` | Finds direct HTML5 video candidates in the current tab |
+| `chrome.downloads` | Starts a normal browser save action |
+| `chrome.commands` | Keyboard shortcut support |
 
-## 关键本地目录
+## Local Directories
 
-| 目录 | 是否提交 | 用途 |
+| Directory | Commit? | Purpose |
 |---|---|---|
-| `scripts/` | 是 | 通用 CLI |
-| `extension/` | 是 | Edge 插件源码 |
-| `docs/` | 是 | 工作流和架构说明 |
-| `examples/` | 是 | 分析模板 |
-| `downloads/` | 否 | 本地视频 |
-| `artifacts/` | 否 | 抽帧、总览页等生成物 |
-| `node_modules/` | 否 | 依赖安装目录 |
+| `scripts/` | Yes | Reusable CLI utilities |
+| `extension/` | Yes | Optional browser helper source |
+| `docs/` | Yes | Compliance, product, and workflow docs |
+| `web-demo/` | Yes | Static showcase pages |
+| `examples/` | Yes | Fictional sample report data |
+| `downloads/` | No | Local authorized videos |
+| `artifacts/` | No | Extracted frames and generated reports |
+| `node_modules/` | No | Installed dependencies |
 
-## 本次实践中形成的组件
+## Current Components
 
-- 链接解析下载器：`scripts/douyin-download.js`
-- 本地抽帧器：`scripts/extract-frames.js`
-- 关键帧总览生成器：`scripts/make-contact-sheet.js`
-- 当前视频一键下载 Edge 扩展：`extension/edge-video-downloader`
-- 分析输出模板：`examples/analysis-template.md`
+- Local frame extractor: `scripts/extract-frames.js`
+- Contact-sheet generator: `scripts/make-contact-sheet.js`
+- Static demo opener: `scripts/open-demo.js`
+- Demo validator: `scripts/validate-demo.js`
+- Optional authorized-source resolver: `scripts/douyin-download.js`
+- Authorized direct-video helper extension: `extension/edge-video-downloader`

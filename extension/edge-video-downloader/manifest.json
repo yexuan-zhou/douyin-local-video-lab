@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "当前视频一键下载",
-  "version": "1.0.0",
-  "description": "点击工具栏图标，下载当前页面中可直接访问的 HTML5 视频资源。",
+  "name": "授权视频保存助手",
+  "version": "1.1.0",
+  "description": "仅用于保存用户本人拥有权利或已获授权页面中的直链 HTML5 视频。",
   "permissions": [
     "activeTab",
     "downloads",
@@ -13,7 +13,7 @@
     "<all_urls>"
   ],
   "action": {
-    "default_title": "下载当前页面视频",
+    "default_title": "保存授权直链视频",
     "default_icon": {
       "16": "icons/icon16.png",
       "32": "icons/icon32.png",
@@ -40,7 +40,7 @@
       "suggested_key": {
         "default": "Alt+Shift+V"
       },
-      "description": "下载当前页面视频"
+      "description": "保存当前页面授权直链视频"
     }
   }
 }

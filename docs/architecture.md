@@ -1,50 +1,57 @@
-# 项目结构与组件
+# Architecture
 
 ```text
 douyin-local-video-lab/
   scripts/
-    douyin-download.js       # 分享链接解析 + MP4 下载
-    extract-frames.js        # 本地 MP4 抽关键帧
-    make-contact-sheet.js    # 关键帧 HTML 总览
+    douyin-download.js       # Legacy authorized-source resolver
+    extract-frames.js        # Local MP4 key-frame extraction
+    make-contact-sheet.js    # Local HTML contact sheet generator
+    open-demo.js             # Opens static demo pages
+    validate-demo.js         # Checks demo and sample-data structure
   extension/
-    edge-video-downloader/   # Edge 一键下载插件
+    edge-video-downloader/   # Authorized direct-video helper extension
   docs/
-    workflow.md              # 端到端工作流
-    architecture.md          # 组件说明
+    compliance.md            # Acceptable use and privacy boundaries
+    monetization.md          # Commercial MVP plan
+    roadmap.md               # Product roadmap
+  web-demo/
+    index.html               # Static product page
+    demo-report.html         # Fictional sample report
+    styles.css               # Shared demo styling
   examples/
-    analysis-template.md     # 总结模板
+    sample-report-data.json  # Fictional demo report data
 ```
 
-## 组件说明
+## Components
 
-| 组件 | 输入 | 输出 | 作用 |
+| Component | Input | Output | Role |
 |---|---|---|---|
-| `douyin-download.js` | 分享短链、视频 ID 或播放 URI | 本地 MP4 | 解析公开页面并下载 |
-| `extract-frames.js` | 本地 MP4 | PNG 关键帧和 `frames.json` | 离线采样视频内容 |
-| `make-contact-sheet.js` | 关键帧目录 | `contact-sheet.html` | 快速查看字幕和画面 |
-| Edge 扩展 | 当前浏览器标签页 | 浏览器下载任务 | 一键保存直链 HTML5 视频 |
+| `extract-frames.js` | Local authorized MP4 | PNG frames and `frames.json` | Samples visual evidence from local material. |
+| `make-contact-sheet.js` | Frame directory | `contact-sheet.html` | Builds a review-friendly visual overview. |
+| `open-demo.js` | Static demo files | Browser tabs | Opens the product page and sample report. |
+| `validate-demo.js` | Demo HTML and JSON | Check result | Prevents broken showcase files. |
+| `douyin-download.js` | Authorized source link, ID, or playable URI | Local MP4 | Legacy resolver kept for lawful sources only. |
+| Browser helper extension | Current tab with direct HTML5 video | Browser download task | Saves direct videos only when the user has rights. |
 
-## 技术点
+## Technical Notes
 
-- `fetch`：解析短链和公开分享页。
-- Node.js stream：大文件下载，不一次性读入内存。
-- 本地 HTTP Range server：让浏览器像播放远程视频一样播放本地 MP4。
-- Playwright + Edge/Chromium：自动 seek、暂停、截图。
-- Chrome Extensions Manifest V3：通过 `chrome.scripting` 和 `chrome.downloads` 找视频并下载。
+- Node.js streams handle large local files without reading them into memory.
+- A temporary local HTTP Range server lets the browser seek through local MP4 files.
+- Playwright plus Edge/Chromium performs seek, pause, and screenshot operations.
+- The static web demo has no backend and can be opened directly from disk.
+- The extension uses Chrome Extensions Manifest V3 APIs and does not bypass protected streams.
 
-## 数据流
+## Data Flow
 
 ```mermaid
 flowchart LR
-  A["Douyin share link"] --> B["Resolve public page"]
-  B --> C["Extract video id / play uri"]
-  C --> D["Download MP4"]
-  D --> E["Local frame sampler"]
-  E --> F["Frame images"]
-  F --> G["Contact sheet"]
-  G --> H["Human / AI summary"]
+  A["Authorized local video"] --> B["Frame extractor"]
+  B --> C["Frame images"]
+  C --> D["Contact sheet"]
+  D --> E["Human / AI review"]
+  E --> F["Markdown / HTML report"]
 ```
 
-## 为什么不提交生成物
+## Why Generated Files Are Not Committed
 
-视频、关键帧、浏览器缓存都可能包含版权内容、个人浏览信息或大文件。开源仓库只保留可复用代码和说明，所有生成物放入 `downloads/` 或 `artifacts/` 并由 `.gitignore` 排除。
+Videos, key frames, browser caches, and local reports may contain copyrighted material, private client content, or personal browsing data. The repository keeps source code, documentation, and fictional demos only. Generated files belong in ignored folders such as `downloads/` and `artifacts/`.

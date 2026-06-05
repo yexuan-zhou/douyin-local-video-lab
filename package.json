@@ -1,21 +1,25 @@
 {
   "name": "douyin-local-video-lab",
-  "version": "0.1.0",
-  "description": "Download public short-video links for personal archiving, then analyze local videos with frame sampling and an Edge helper extension.",
+  "version": "0.2.0",
+  "description": "Local-first short-video archive and AI review workflow for creator-owned or authorized content.",
   "main": "scripts/douyin-download.js",
   "type": "commonjs",
   "scripts": {
+    "demo": "node scripts/open-demo.js",
+    "web-demo": "node scripts/open-demo.js",
+    "report": "node scripts/open-demo.js --report",
     "download": "node scripts/douyin-download.js",
     "frames": "node scripts/extract-frames.js",
     "sheet": "node scripts/make-contact-sheet.js",
     "github:upload": "node scripts/github-upload.js",
-    "check": "node --check scripts/douyin-download.js && node --check scripts/extract-frames.js && node --check scripts/make-contact-sheet.js && node --check scripts/github-upload.js && node --check extension/edge-video-downloader/background.js"
+    "check": "node --check scripts/douyin-download.js && node --check scripts/extract-frames.js && node --check scripts/make-contact-sheet.js && node --check scripts/github-upload.js && node --check scripts/open-demo.js && node --check scripts/validate-demo.js && node --check extension/edge-video-downloader/background.js && node scripts/validate-demo.js"
   },
   "keywords": [
-    "douyin",
-    "video",
-    "local-analysis",
-    "edge-extension",
+    "short-video",
+    "local-archive",
+    "authorized-content",
+    "creator-tools",
+    "ai-review",
     "frame-sampling"
   ],
   "license": "MIT",
